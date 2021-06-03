@@ -17,12 +17,13 @@ pthread_mutex_t	mutex;
 void		*routine(void *args)
 {
 	// TO-DO: Make a fucking routine
+	printf("Philosopher is thinking...\n");
+
+	// TO-DO: Make another lock as you said, and then unlock both of then when the philosopher is eating
 	if (pthread_mutex_lock(&mutex) == 0)
-		printf("Philosopher is thinking...\n");
-	else
-		printf("Philosopher isn't thinking...\n");
+		printf("Philosopher is eating...\n");
 	pthread_mutex_unlock(&mutex);
-	return (EXIT_SUCCESS);
+	return (NULL);
 }
 
 void		threads(t_status *status)
@@ -58,8 +59,8 @@ t_status	*init(t_status *status, int ac, char **av)
 	while (i < status->number_of_philosophers)
 	{
 		status->philos[i].number = i;
-		// status->philos[i].left_fork = i;
-		// status->philos[i].right_fork = i - 1;
+		status->philos[i].left_fork = i;
+		status->philos[i].right_fork = (i + 1) % status->number_of_philosophers;
 		i++;
 	}
 	return (status);
@@ -74,14 +75,14 @@ int			main(int ac, char **av)
 	else
 	{
 		init(&status, ac, av);
-		printf("Number of philosophers : %d\n", status.number_of_philosophers);
-		printf("Time to die : %llu\n", status.time_to_die);
-		printf("Time to eat : %llu\n", status.time_to_eat);
-		printf("Time to sleep : %llu\n", status.time_to_sleep);
-		printf("Number of times a philosopher must eat : %d\n", status.number_of_times_must_eat);
-
-		printf("STARTING SIMULATION\n");
 		threads(&status);
+		// printf("Number of philosophers : %d\n", status.number_of_philosophers);
+		// printf("Time to die : %llu\n", status.time_to_die);
+		// printf("Time to eat : %llu\n", status.time_to_eat);
+		// printf("Time to sleep : %llu\n", status.time_to_sleep);
+		// printf("Number of times a philosopher must eat : %d\n", status.number_of_times_must_eat);
+
+		// printf("STARTING SIMULATION\n");
 	}
 
 
