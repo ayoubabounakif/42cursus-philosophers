@@ -42,5 +42,6 @@ fclean: clean
 	rm -f *.a
 	rm -f $(EXEC)
 	rm -rf $(EXEC).dSYM
+	rm -rf .vscode
 
 re: fclean all
