@@ -18,7 +18,7 @@ NAME = philo_one
 
 EXEC = philo_one
 
-SRCS = philo_one.c
+SRCS = main.c
 
 LIBS = -lpthread
 
@@ -41,5 +41,6 @@ fclean: clean
 	make fclean -C utils/
 	rm -f *.a
 	rm -f $(EXEC)
+	rm -rf $(EXEC).dSYM
 
 re: fclean all
