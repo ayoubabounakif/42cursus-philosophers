@@ -5,41 +5,33 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aabounak <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/06/03 10:02:19 by aabounak          #+#    #+#              #
-#    Updated: 2021/06/03 10:02:19 by aabounak         ###   ########.fr        #
+#    Created: 2021/06/03 09:59:46 by aabounak          #+#    #+#              #
+#    Updated: 2021/06/03 09:59:46 by aabounak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAGS = 
+NAME = utils_lib.a
 
-LIBNAME = utils_lib.a
+FLAGS = -Wall -Wextra -Werror
 
-NAME = philo_one
+SRC = ft_putchar_fd.c ft_putstr_fd.c \
+ft_strlen.c \
+ft_atoi.c \
+ft_exit.c \
 
-EXEC = philo_one
-
-SRCS = philo_one.c
-
-LIBS = -lpthread
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(LIBNAME): $(SRC)
-	make -C utils/
-	cp utils/$(LIBNAME) ./
-
-$(NAME): $(LIBNAME)
-	@echo "Compilation in progress! DO NOT INTERRUPT!"
-	gcc -g3 $(FLAGS) $(SRCS) utils_lib.a -o $(EXEC) $(LIBS)
-	@echo "Compilation done! :)"
+$(NAME):
+	gcc $(FLAGS) -c $(SRC)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 clean:
-	make clean -C utils/
-	rm -f *.o
+	rm -f $(OBJ)
 
 fclean: clean
-	make fclean -C utils/
-	rm -f *.a
-	rm -f $(EXEC)
+	rm -f $(NAME)
 
 re: fclean all

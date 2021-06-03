@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "philo_one.h": "c",
+        "time.h": "c",
+        "pthread.h": "c"
+    }
+}
