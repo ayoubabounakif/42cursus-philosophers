@@ -8,13 +8,16 @@
 # include <sys/time.h>
 # include "../utils/utils.h"
 
+# define THINKING 0
+# define HUNGRY 1
+# define EATING 2
+
 typedef struct	s_philo
 {
 	int		number;
 	int		left_fork;
 	int		right_fork;
 
-	pthread_t	thread_id;
 }		t_philo;
 
 typedef struct	s_status
@@ -25,7 +28,7 @@ typedef struct	s_status
 	uint64_t	time_to_sleep;
 	int			number_of_times_must_eat;
 
-	int			started_eating;
+	uint64_t	started_eating;
 
 	t_philo		*philos;
 }				t_status;

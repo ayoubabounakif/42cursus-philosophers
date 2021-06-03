@@ -12,6 +12,36 @@
 
 # include "includes/philo_one.h"
 
+pthread_mutex_t	mutex;
+
+void		*routine(void *args)
+{
+	// TO-DO: Make a fucking routine
+	if (pthread_mutex_lock(&mutex) == 0)
+		printf("Philosopher is thinking...\n");
+	else
+		printf("Philosopher isn't thinking...\n");
+	pthread_mutex_unlock(&mutex);
+	return (EXIT_SUCCESS);
+}
+
+void		threads(t_status *status)
+{
+	int			i;
+	pthread_t	thread_id[status->number_of_philosophers];
+
+	i = 0;
+	pthread_mutex_init(&mutex, NULL);
+	while (i < status->number_of_philosophers)
+	{
+		if (pthread_create(thread_id + i, NULL, &routine, NULL) != 0)
+			perror("Failed to create thread\n");
+		i++;
+	}
+	pthread_mutex_destroy(&mutex);
+	return ;
+}
+
 t_status	*init(t_status *status, int ac, char **av)
 {
 	int		i = 0;
@@ -28,6 +58,8 @@ t_status	*init(t_status *status, int ac, char **av)
 	while (i < status->number_of_philosophers)
 	{
 		status->philos[i].number = i;
+		// status->philos[i].left_fork = i;
+		// status->philos[i].right_fork = i - 1;
 		i++;
 	}
 	return (status);
@@ -47,8 +79,11 @@ int			main(int ac, char **av)
 		printf("Time to eat : %llu\n", status.time_to_eat);
 		printf("Time to sleep : %llu\n", status.time_to_sleep);
 		printf("Number of times a philosopher must eat : %d\n", status.number_of_times_must_eat);
-		printf("Philosopher number : %d\n", status.philos[0].number);
+
+		printf("STARTING SIMULATION\n");
+		threads(&status);
 	}
+
 
 					// TIME MONITORING (WILL COME BACK TO LAATER)
 
