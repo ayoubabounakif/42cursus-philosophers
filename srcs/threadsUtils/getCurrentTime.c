@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   getCurrentTime.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/03 10:20:00 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/03 10:20:01 by aabounak         ###   ########.fr       */
+/*   Created: 2021/06/30 16:55:51 by aabounak          #+#    #+#             */
+/*   Updated: 2021/06/30 16:56:12 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+# include "../../includes/philo_one.h"
 
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+uint64_t	getCurrentTime(void)
+{
+	struct timespec start;
+	uint64_t currentTime;
 
-/*
-** Utils
-*/
-int     ft_strlen(const char *s);
-int     ft_putchar_fd(char c, int fd);
-int     ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-int     ft_atoi(const char *str);
-int     printError(char *errorMsg);
-
-
-#endif
+	clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+	currentTime = (start.tv_nsec) / 1000;
+	return (currentTime);
+}

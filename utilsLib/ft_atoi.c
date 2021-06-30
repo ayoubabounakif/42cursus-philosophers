@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils.h"
+# include "utilsLib.h"
 
 int		condition(long result, long sign)
 {

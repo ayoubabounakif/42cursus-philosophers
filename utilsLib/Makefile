@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = utils_lib.a
+NAME = utilsLib.a
 
 FLAGS = -Wall -Wextra -Werror
 

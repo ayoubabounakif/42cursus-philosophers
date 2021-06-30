@@ -18,22 +18,28 @@
 # include <string.h>
 # include <stdio.h>
 # include <sys/time.h>
-# include "../utils/utils.h"
+# include "../utilsLib/utilsLib.h"
 
-# define __evenaccess
+# define __EVENACCESS
 
-typedef struct s_philo
+typedef struct s_status	t_status;
+typedef struct s_philo	t_philo;
+
+struct s_philo
 {
 	int				id;
-	uint64_t		lastMeal;
 	int				leftFork;
 	int				rightFork;
+	int				numberOfTimesAte;
+
+	uint64_t		lastMeal;
+
 	pthread_mutex_t	eat;
 
 	t_status		*status;
-}				t_philo;
+};
 
-typedef struct s_status
+struct s_status
 {
 	int				numberOfPhilosophers;
 	uint64_t		timeToDie;
@@ -41,35 +47,36 @@ typedef struct s_status
 	uint64_t		timeToSleep;
 	int				numberOfTimesMustEat;
 
-	uint64_t		currentTime;
+	int				supervisorCounter;
+
+	uint64_t		startingTime;
 
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
 
 	t_philo			*philos;
-}				t_status;
-
+};
 
 /*
-**	Constructor of the two structs above
+**	subroutines
 */
 t_status	*Constructor(t_status *status, int ac, char **av);
 t_philo		*philosophersConstructor(t_status *status);
 void		mutexConstructor(t_status *status);
-
-/*
-**	Starting multi-threading
-*/
 void		runThreads(t_status *status);
 
 /*
-**	Routines
+**	threadsRoutineMethods
 */
-void	__eat__(t_philo *philosopher);
+void		__eat__(t_philo *philosopher);
+void		__sleep__(t_philo *philosopher);
+void		__think__(t_philo *philosopher);
 
 /*
-**	Gets the current time
+**	threadsUtils
 */
 uint64_t	getCurrentTime(void);
+void		displayChangeOfStatus(char *messageToPrint, t_philo *philosopher);
+
 
 #endif

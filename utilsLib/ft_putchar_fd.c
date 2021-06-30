@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/03 09:57:17 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/03 09:57:26 by aabounak         ###   ########.fr       */
+/*   Created: 2021/06/03 09:56:43 by aabounak          #+#    #+#             */
+/*   Updated: 2021/06/03 09:56:53 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils.h"
+# include "utilsLib.h"
 
-int	ft_strlen(const char *s)
+int	ft_putchar_fd(char c, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	write(fd, &c, 1);
+    return (EXIT_SUCCESS);
 }
