@@ -22,6 +22,9 @@
 
 # define __EVENACCESS
 
+# define PHILOSOPHER_CAN_DIE 0
+# define EATING 1
+
 typedef struct s_status	t_status;
 typedef struct s_philo	t_philo;
 
@@ -31,6 +34,7 @@ struct s_philo
 	int				leftFork;
 	int				rightFork;
 	int				numberOfTimesAte;
+	int				isEating;
 
 	uint64_t		lastMeal;
 
@@ -64,6 +68,7 @@ t_status	*Constructor(t_status *status, int ac, char **av);
 t_philo		*philosophersConstructor(t_status *status);
 void		mutexConstructor(t_status *status);
 void		runThreads(t_status *status);
+void		Destructor(t_status *status, void (*del)(void *));
 
 /*
 **	threadsRoutineMethods

@@ -24,10 +24,10 @@ void	__eat__(t_philo *philosopher)
 	pthread_mutex_lock(&philosopher->eat);
 	displayChangeOfStatus("is eating\n", philosopher);
 
-/*	This lastMeal variable will be needed for the supervisor */
-	philosopher->lastMeal = getCurrentTime();
 
 /* 	This will be needed by the supervisor */
+	philosopher->lastMeal = getCurrentTime();
+	philosopher->isEating = EATING;
 	philosopher->numberOfTimesAte += 1;
 	if (philosopher->numberOfTimesAte == philosopher->status->numberOfTimesMustEat)
 		philosopher->status->supervisorCounter++;
@@ -39,5 +39,6 @@ void	__eat__(t_philo *philosopher)
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->leftFork]);
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->rightFork]);
 	pthread_mutex_unlock(&philosopher->eat);
+	philosopher->isEating = PHILOSOPHER_CAN_DIE;
 	return ;
 }

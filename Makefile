@@ -19,7 +19,7 @@ NAME = philo_one
 EXEC = philo_one
 
 SRCS = philo_one.c \
-srcs/subroutines/constructors.c srcs/subroutines/runThreads.c \
+srcs/subroutines/constructors.c srcs/subroutines/runThreads.c srcs/subroutines/Destructor.c \
 srcs/threadsRoutineMethods/__eat__.c \
 srcs/threadsRoutineMethods/__sleep__.c \
 srcs/threadsRoutineMethods/__think__.c \
