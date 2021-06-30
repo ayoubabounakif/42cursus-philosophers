@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_one.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 11:46:12 by aabounak          #+#    #+#             */
+/*   Updated: 2021/06/30 11:46:13 by aabounak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 
@@ -8,35 +20,56 @@
 # include <sys/time.h>
 # include "../utils/utils.h"
 
-# define THINKING 0
-# define HUNGRY 1
-# define EATING 2
+# define __evenaccess
 
-typedef struct	s_philo
+typedef struct s_philo
 {
-	int		number;
-	int		left_fork;
-	int		right_fork;
+	int				id;
+	uint64_t		lastMeal;
+	int				leftFork;
+	int				rightFork;
+	pthread_mutex_t	eat;
 
-}		t_philo;
+	t_status		*status;
+}				t_philo;
 
-typedef struct	s_status
+typedef struct s_status
 {
-	int			number_of_philosophers;
-	uint64_t	time_to_die;
-	uint64_t	time_to_eat;
-	uint64_t	time_to_sleep;
-	int			number_of_times_must_eat;
+	int				numberOfPhilosophers;
+	uint64_t		timeToDie;
+	uint64_t		timeToEat;
+	uint64_t		timeToSleep;
+	int				numberOfTimesMustEat;
 
-	uint64_t	started_eating;
+	uint64_t		currentTime;
 
-	t_philo		*philos;
+	pthread_mutex_t	write;
+	pthread_mutex_t	*forks;
+
+	t_philo			*philos;
 }				t_status;
 
 
 /*
-** Init
+**	Constructor of the two structs above
 */
-t_status	*init(t_status *status, int ac, char **av);
+t_status	*Constructor(t_status *status, int ac, char **av);
+t_philo		*philosophersConstructor(t_status *status);
+void		mutexConstructor(t_status *status);
+
+/*
+**	Starting multi-threading
+*/
+void		runThreads(t_status *status);
+
+/*
+**	Routines
+*/
+void	__eat__(t_philo *philosopher);
+
+/*
+**	Gets the current time
+*/
+uint64_t	getCurrentTime(void);
 
 #endif

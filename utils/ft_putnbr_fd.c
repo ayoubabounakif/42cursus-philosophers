@@ -1,19 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/03 09:56:35 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/03 09:56:35 by aabounak         ###   ########.fr       */
+/*   Created: 2019/10/14 19:19:02 by aabounak          #+#    #+#             */
+/*   Updated: 2019/10/15 20:02:50 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils.h"
+#include "utils.h"
 
-int	ft_exit(char *msg)
+void	ft_putnbr_fd(int n, int fd)
 {
-	ft_putstr_fd(msg, STDERR_FILENO);
-	return (EXIT_FAILURE);
+	int		size;
+	int		temp;
+
+	size = 1;
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	if (n < 0 && n != -2147483648)
+	{
+		ft_putchar_fd('-', fd);
+		n = -n;
+	}
+	temp = n;
+	while (temp > 0)
+	{
+		temp /= 10;
+		size *= 10;
+	}
+	temp = n;
+	while (size && n != -2147483648)
+	{
+		ft_putchar_fd((temp / size) + '0', fd);
+		temp %= size;
+		size /= 10;
+	}
 }

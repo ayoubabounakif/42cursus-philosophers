@@ -14,10 +14,10 @@ NAME = utils_lib.a
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = ft_putchar_fd.c ft_putstr_fd.c \
+SRC = ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c \
 ft_strlen.c \
 ft_atoi.c \
-ft_exit.c \
+printError.c \
 
 OBJ = $(SRC:.c=.o)
 

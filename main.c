@@ -12,101 +12,141 @@
 
 # include "includes/philo_one.h"
 
-pthread_mutex_t	mutex;
-
-void		*routine(void *args)
+void	displayChangeOfStatus(char *messageToPrint, t_philo *philosopher)
 {
-	// TO-DO: Make a fucking routine
-	printf("Philosopher is thinking...\n");
+	uint64_t	time;
 
-	// TO-DO: Make another lock as you said, and then unlock both of then when the philosopher is eating
-	if (pthread_mutex_lock(&mutex) == 0)
-		printf("Philosopher is eating...\n");
-	pthread_mutex_unlock(&mutex);
-	return (NULL);
+	pthread_mutex_lock(&philosopher->status->write);
+	time = getCurrentTime();
+	ft_putnbr_fd(time, STDOUT_FILENO);
+	ft_putstr_fd("philosopher ", STDOUT_FILENO);
+	ft_putnbr_fd(philosopher->id, STDOUT_FILENO);
+	ft_putstr_fd(" ", STDOUT_FILENO);
+	ft_putstr_fd(messageToPrint, STDOUT_FILENO);
+
+	pthread_mutex_unlock(&philosopher->status->write);
 }
 
-void		threads(t_status *status)
+void	__eat__(t_philo *philosopher)
 {
-	int			i;
-	pthread_t	thread_id[status->number_of_philosophers];
+	pthread_mutex_lock(&philosopher->status->forks[philosopher->leftFork]);
+	ft_putstr_fd("has taken the left fork\n", STDOUT_FILENO);
 
-	i = 0;
-	pthread_mutex_init(&mutex, NULL);
-	while (i < status->number_of_philosophers)
-	{
-		if (pthread_create(thread_id + i, NULL, &routine, NULL) != 0)
-			perror("Failed to create thread\n");
-		i++;
-	}
-	pthread_mutex_destroy(&mutex);
+	pthread_mutex_lock(&philosopher->status->forks[philosopher->rightFork]);
+	ft_putstr_fd("has taken the right fork\n", STDOUT_FILENO);
+
+	pthread_mutex_lock(&philosopher->eat);
+	ft_putstr_fd("is eating...\n", STDOUT_FILENO);
+
+	// philosopher->lastMeal = getCurrentTime();
+
+	usleep(100);
+
+	ft_putstr_fd("Philosopher finished eating...\n", STDOUT_FILENO);
+
+	pthread_mutex_unlock(&philosopher->status->forks[philosopher->leftFork]);
+	pthread_mutex_unlock(&philosopher->status->forks[philosopher->rightFork]);
+	pthread_mutex_unlock(&philosopher->eat);
 	return ;
 }
 
-t_status	*init(t_status *status, int ac, char **av)
+void	*routine(void *arg)
 {
-	int		i = 0;
-
-	status->number_of_philosophers = ft_atoi(av[1]);
-	status->time_to_die = ft_atoi(av[2]);
-	status->time_to_eat = ft_atoi(av[3]);
-	status->time_to_sleep = ft_atoi(av[4]);
-	if (ac == 6)
-		status->number_of_times_must_eat = ft_atoi(av[5]);
-	else
-		status->number_of_times_must_eat = 0;
-	status->philos = (t_philo *)malloc(status->number_of_philosophers * sizeof(status->philos));
-	while (i < status->number_of_philosophers)
+	t_philo	*philosopher = (t_philo *)arg;
+	while (1)
 	{
-		status->philos[i].number = i;
-		status->philos[i].left_fork = i;
-		status->philos[i].right_fork = (i + 1) % status->number_of_philosophers;
+		__eat__(philosopher);
+		// __sleep__();
+		// __think__();
+		usleep(100);
+	}
+	return (EXIT_SUCCESS);
+}
+
+t_philo	*philosophersConstructor(t_status *status)
+{
+	int		i;
+	t_philo	*philo;
+	
+	i = 0;
+	philo = (t_philo *)malloc(status->numberOfPhilosophers * sizeof(status->philos));
+	while (i < status->numberOfPhilosophers)
+	{
+		philo[i].id = i + 1;
+		philo[i].leftFork = i;
+		philo[i].rightFork = (i + 1) % status->numberOfPhilosophers;
+		pthread_mutex_init(&philo[i].eat, NULL);
+	
+		philo[i].status = status;
+
 		i++;
 	}
+	return (philo);
+}
+
+uint64_t	getCurrentTime(void)
+{
+	struct timespec start;
+	uint64_t currentTime;
+
+	clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+	currentTime = (start.tv_sec) * 1000000 + (start.tv_nsec) / 1000;
+	return (currentTime);
+}
+
+void	runThreads(t_status *status)
+{
+	pthread_t	threadId;
+	int			i;
+
+	i = -1;
+	status->currentTime = getCurrentTime();
+	pthread_mutex_init(&status->write, NULL);
+	while (++i < status->numberOfPhilosophers)
+	{
+		pthread_create(&threadId, NULL, &routine, &status->philos[i]);
+		usleep(150);
+	}
+	return ;
+}
+
+void	mutexConstructor(t_status *status)
+{
+	int		i;
+
+	i = -1;
+	status->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* status->numberOfPhilosophers);
+	while (++i < status->numberOfPhilosophers)
+		pthread_mutex_init(&status->forks[i], NULL);
+	return ;
+}
+
+t_status	*Constructor(t_status *status, int ac, char **av)
+{
+	status->numberOfPhilosophers = ft_atoi(av[1]);
+	status->timeToDie = ft_atoi(av[2]);
+	status->timeToEat = ft_atoi(av[3]);
+	status->timeToSleep = ft_atoi(av[4]);
+	if (ac == 6)
+		status->numberOfTimesMustEat = ft_atoi(av[5]);
+	else
+		status->numberOfTimesMustEat = 0;
+	status->philos = philosophersConstructor(status);
 	return (status);
 }
 
-int			main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_status	status;
 	
 	if (ac < 5 || ac > 6)
-			return (ft_exit("Error: Bad arguments number!\nQuitting...\n"));
+			return (printError("Error: Bad arguments number!\n"));
 	else
 	{
-		init(&status, ac, av);
-		threads(&status);
-		// printf("Number of philosophers : %d\n", status.number_of_philosophers);
-		// printf("Time to die : %llu\n", status.time_to_die);
-		// printf("Time to eat : %llu\n", status.time_to_eat);
-		// printf("Time to sleep : %llu\n", status.time_to_sleep);
-		// printf("Number of times a philosopher must eat : %d\n", status.number_of_times_must_eat);
-
-		// printf("STARTING SIMULATION\n");
+		Constructor(&status, ac, av);
+		mutexConstructor(&status);
+		runThreads(&status);
 	}
-
-
-					// TIME MONITORING (WILL COME BACK TO LAATER)
-
-	/*
-	**	Any change of status of a philosopher must be written as follows (with X replaced
-	**	with the philosopher number and timestamp_in_ms the current timestamp in milliseconds)
-
-			◦ timestamp_in_ms X has taken a fork
-			◦ timestamp_in_ms X is eating
-			◦ timestamp_in_ms X is sleeping
-			◦ timestamp_in_ms X is thinking
-			◦ timestamp_in_ms X died
-
-	*/
-
-	// struct timespec start, end;
-	// clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-
-	// // DO STUFF (FOR EXAMPLE PHILOSOPHER STARTED EATING)
-
-	// clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-	// uint64_t delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
-
 	return (EXIT_SUCCESS);
 }
