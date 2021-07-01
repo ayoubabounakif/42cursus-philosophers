@@ -13,6 +13,7 @@
 # include "../../includes/philo_one.h"
 
 void	displayChangeOfStatus(char *messageToPrint, t_philo *philosopher)
+
 {
 	uint64_t	time;
 
@@ -26,6 +27,6 @@ void	displayChangeOfStatus(char *messageToPrint, t_philo *philosopher)
 	ft_putstr_fd(messageToPrint, STDOUT_FILENO);
 
 /* 	An upcoming condition, that will be needed for the supervisor */
-	if (strcmp(messageToPrint, "dead") != 0)
+	if (strcmp(messageToPrint, "died") != 0)
 		pthread_mutex_unlock(&philosopher->status->write);
 }

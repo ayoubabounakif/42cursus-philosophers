@@ -14,10 +14,8 @@
 
 uint64_t	getCurrentTime(void)
 {
-	struct timespec start;
-	uint64_t currentTime;
+	struct timeval	tv;
 
-	clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-	currentTime = (start.tv_nsec) / 1000;
-	return (currentTime);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

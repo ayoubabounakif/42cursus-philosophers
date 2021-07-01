@@ -14,7 +14,11 @@
 
 void	__sleep__(t_philo *philosopher)
 {
+	uint64_t time;
+
 	displayChangeOfStatus("is sleeping\n", philosopher);
-	usleep(philosopher->status->timeToEat / 1000);
+	time = getCurrentTime();
+	usleep(philosopher->status->timeToSleep * 1000 - 10000);
+	while (getCurrentTime() - time < philosopher->status->timeToSleep);
 	return ;
 }

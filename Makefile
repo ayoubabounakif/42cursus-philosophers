@@ -20,6 +20,7 @@ EXEC = philo_one
 
 SRCS = philo_one.c \
 srcs/subroutines/constructors.c srcs/subroutines/runThreads.c srcs/subroutines/Destructor.c \
+srcs/supervisor/threadsSupervisor.c \
 srcs/threadsRoutineMethods/__eat__.c \
 srcs/threadsRoutineMethods/__sleep__.c \
 srcs/threadsRoutineMethods/__think__.c \
@@ -36,7 +37,7 @@ $(LIBNAME): $(SRC)
 
 $(NAME): $(LIBNAME)
 	@echo "Compilation in progress! DO NOT INTERRUPT!"
-	gcc -g3 -fsanitize=address $(FLAGS) $(SRCS) utilsLib.a -o $(EXEC) $(LIBS)
+	gcc $(FLAGS) $(SRCS) utilsLib.a -o $(EXEC) $(LIBS)
 	@echo "Compilation done! :)"
 
 clean:

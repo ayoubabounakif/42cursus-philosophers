@@ -71,6 +71,11 @@ void		runThreads(t_status *status);
 void		Destructor(t_status *status, void (*del)(void *));
 
 /*
+**	supervisor
+*/
+int			threadsSupervisor(t_status *status);
+
+/*
 **	threadsRoutineMethods
 */
 void		__eat__(t_philo *philosopher);

@@ -14,7 +14,6 @@
 
 void	__eat__(t_philo *philosopher)
 {
-
 	pthread_mutex_lock(&philosopher->status->forks[philosopher->leftFork]);
 	displayChangeOfStatus("has taken the left fork\n", philosopher);
 
@@ -24,8 +23,7 @@ void	__eat__(t_philo *philosopher)
 	pthread_mutex_lock(&philosopher->eat);
 	displayChangeOfStatus("is eating\n", philosopher);
 
-
-/* 	This will be needed by the supervisor */
+	/* 	This will be needed by the supervisor */
 	philosopher->lastMeal = getCurrentTime();
 	philosopher->isEating = EATING;
 	philosopher->numberOfTimesAte += 1;
@@ -33,8 +31,8 @@ void	__eat__(t_philo *philosopher)
 		philosopher->status->supervisorCounter++;
 
 	/* HARAM Calculations */
-	usleep(philosopher->status->timeToEat / 1000);
-	displayChangeOfStatus("finished eating...\n", philosopher);
+	usleep(philosopher->status->timeToEat * 1000 - 10000);
+	while (getCurrentTime() - philosopher->lastMeal < philosopher->status->timeToEat);
 
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->leftFork]);
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->rightFork]);

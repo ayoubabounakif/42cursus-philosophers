@@ -23,8 +23,8 @@ void	Destructor(t_status *status, void (*del)(void *))
 			pthread_mutex_destroy(&status->forks[i]);
 		if (status->forks)
 			(*del)(status->forks);
-		if (status->philo)
-			(*del)(status->philo);
+		if (status->philos)
+			(*del)(status->philos);
 		pthread_mutex_destroy(&status->write);
 	}
 	return ;

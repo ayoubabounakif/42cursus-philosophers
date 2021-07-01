@@ -29,17 +29,17 @@ t_philo	*philosophersConstructor(t_status *status)
 	int		i;
 	t_philo	*philo;
 	
-	i = 0;
+	i = -1;
 	philo = (t_philo *)malloc(status->numberOfPhilosophers * sizeof(t_philo));
-	while (i < status->numberOfPhilosophers)
+	while (++i < status->numberOfPhilosophers)
 	{
 		philo[i].id = i + 1;
 		philo[i].leftFork = i;
 		philo[i].rightFork = (i + 1) % status->numberOfPhilosophers;
 		philo[i].numberOfTimesAte = 0;
+		philo[i].isEating = 0;
 		pthread_mutex_init(&philo[i].eat, NULL);
 		philo[i].status = status;
-		i++;
 	}
 	return (philo);
 }

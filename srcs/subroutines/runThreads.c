@@ -16,6 +16,7 @@ void	*routine(void *arg)
 {
 	t_philo	*philosopher = (t_philo *)arg;
 
+	philosopher->lastMeal = getCurrentTime();
 	while (1)
 	{
 		__eat__(philosopher);
@@ -36,8 +37,9 @@ void	runThreads(t_status *status)
 	pthread_mutex_init(&status->write, NULL);
 	while (++i < status->numberOfPhilosophers)
 	{
-		pthread_create(&threadId, NULL, &routine, &status->philos[i]);
-		usleep(150);
+		if (pthread_create(&threadId, NULL, &routine, &status->philos[i]) == -1)
+			return ;
+		usleep(100);
 	}
 	return ;
 }
