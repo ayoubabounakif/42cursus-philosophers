@@ -14,7 +14,18 @@
 
 void	Destructor(t_status *status, void (*del)(void *))
 {
+	int     i;
 
-	// (*del)(status);
+	i = -1;
+	if (status != NULL)
+	{
+		while (++i < status->numberOfPhilosophers)
+			pthread_mutex_destroy(&status->forks[i]);
+		if (status->forks)
+			(*del)(status->forks);
+		if (status->philo)
+			(*del)(status->philo);
+		pthread_mutex_destroy(&status->write);
+	}
 	return ;
 }

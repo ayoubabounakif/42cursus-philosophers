@@ -15,6 +15,7 @@
 void	*routine(void *arg)
 {
 	t_philo	*philosopher = (t_philo *)arg;
+
 	while (1)
 	{
 		__eat__(philosopher);

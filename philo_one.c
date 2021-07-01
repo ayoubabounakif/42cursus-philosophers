@@ -12,26 +12,32 @@
 
 # include "includes/philo_one.h"
 
-void	threadsSupervisor(t_status *status)
+int	threadsSupervisor(t_status *status)
 {
 	int		i;
 
 	i = -1;
 	while (1)
-	{	
+	{
 		while (++i < status->numberOfPhilosophers)
 		{
-			if (getCurrentTime() > status->timeToDie - status->philos->lastMeal
-				&& status->philos->isEating == PHILOSOPHER_CAN_DIE)
+			if (getCurrentTime() >= status->timeToDie - status->philos[i].lastMeal
+				&& status->philos[i].isEating == PHILOSOPHER_CAN_DIE)
 			{
-				// pthread_mutex_unlock(&status->philos->eat);
-				// Destructor(status, free);
-				displayChangeOfStatus("dead", status->philos);
+				pthread_mutex_lock(&status->philos[i].eat);
+				displayChangeOfStatus("died", status->philos);
+				pthread_mutex_unlock(&status->philos[i].eat);
+				Destructor(status, free);
+				return (EXIT_SUCCESS);
+			}
+			else if (status->supervisorCounter == status->numberOfPhilosophers)
+			{
+				Destructor(status, free);
 				return (EXIT_SUCCESS);
 			}
 		}
 	}
-	return ;
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av)
