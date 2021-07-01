@@ -29,13 +29,11 @@ int	threadsSupervisor(t_status *status)
 				pthread_mutex_lock(&status->philos[i].eat);
 				displayChangeOfStatus("died", status->philos);
 				status->isPhilosopherAlive = DEAD;
-				usleep(100000);
 				Destructor(status, free);
 				return (EXIT_SUCCESS);
 			}
 			else if (status->supervisorCounter == status->numberOfPhilosophers)
 			{
-				usleep(100000);
 				Destructor(status, free);
 				return (EXIT_SUCCESS);
 			}

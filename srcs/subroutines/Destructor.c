@@ -17,6 +17,7 @@ void	Destructor(t_status *status, void (*del)(void *))
 	int     i;
 
 	i = -1;
+	usleep(100000);
 	if (status != NULL)
 	{
 		while (++i < status->numberOfPhilosophers)
