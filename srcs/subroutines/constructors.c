@@ -50,6 +50,7 @@ t_status	*Constructor(t_status *status, int ac, char **av)
 	status->timeToDie = ft_atoi(av[2]);
 	status->timeToEat = ft_atoi(av[3]);
 	status->timeToSleep = ft_atoi(av[4]);
+	status->isPhilosopherAlive = ALIVE;
 	if (ac == 6)
 		status->numberOfTimesMustEat = ft_atoi(av[5]);
 	else

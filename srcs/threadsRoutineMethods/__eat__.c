@@ -15,13 +15,13 @@
 void	__eat__(t_philo *philosopher)
 {
 	pthread_mutex_lock(&philosopher->status->forks[philosopher->leftFork]);
-	displayChangeOfStatus("has taken the left fork\n", philosopher);
+	displayChangeOfStatus("has taken the left fork", philosopher);
 
 	pthread_mutex_lock(&philosopher->status->forks[philosopher->rightFork]);
-	displayChangeOfStatus("has taken the right fork\n", philosopher);
+	displayChangeOfStatus("has taken the right fork", philosopher);
 
 	pthread_mutex_lock(&philosopher->eat);
-	displayChangeOfStatus("is eating\n", philosopher);
+	displayChangeOfStatus("is eating", philosopher);
 
 	/* 	This will be needed by the supervisor */
 	philosopher->lastMeal = getCurrentTime();

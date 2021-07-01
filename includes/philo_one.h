@@ -24,6 +24,8 @@
 
 # define PHILOSOPHER_CAN_DIE 0
 # define EATING 1
+# define ALIVE 420
+# define DEAD 0
 
 typedef struct s_status	t_status;
 typedef struct s_philo	t_philo;
@@ -52,6 +54,8 @@ struct s_status
 	int				numberOfTimesMustEat;
 
 	int				supervisorCounter;
+
+	int				isPhilosopherAlive;
 
 	uint64_t		startingTime;
 

@@ -16,7 +16,7 @@ void	__sleep__(t_philo *philosopher)
 {
 	uint64_t time;
 
-	displayChangeOfStatus("is sleeping\n", philosopher);
+	displayChangeOfStatus("is sleeping", philosopher);
 	time = getCurrentTime();
 	usleep(philosopher->status->timeToSleep * 1000 - 10000);
 	while (getCurrentTime() - time < philosopher->status->timeToSleep);

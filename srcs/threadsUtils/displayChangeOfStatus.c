@@ -19,12 +19,7 @@ void	displayChangeOfStatus(char *messageToPrint, t_philo *philosopher)
 
 	pthread_mutex_lock(&philosopher->status->write);
 	time = getCurrentTime() - philosopher->status->startingTime;
-	ft_putnbr_fd(time, STDOUT_FILENO);
-	ft_putstr_fd(" ", STDOUT_FILENO);
-	ft_putstr_fd("philosopher ", STDOUT_FILENO);
-	ft_putnbr_fd(philosopher->id, STDOUT_FILENO);
-	ft_putstr_fd(" ", STDOUT_FILENO);
-	ft_putstr_fd(messageToPrint, STDOUT_FILENO);
+	printf("%llu philosopher %d %s\n", time, philosopher->id, messageToPrint);
 
 /* 	An upcoming condition, that will be needed for the supervisor */
 	if (strcmp(messageToPrint, "died") != 0)
