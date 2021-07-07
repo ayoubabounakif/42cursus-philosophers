@@ -20,7 +20,10 @@ void	mutexConstructor(t_status *status)
 	status->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 			* status->numberOfPhilosophers);
 	while (++i < status->numberOfPhilosophers)
-		pthread_mutex_init(&status->forks[i], NULL);
+	{
+		pthread_mutex_init(&(status->forks[i]), NULL);
+		status->philos[i].lastMeal = getCurrentTime();
+	}
 	return ;
 }
 
@@ -44,18 +47,25 @@ t_philo	*philosophersConstructor(t_status *status)
 	return (philo);
 }
 
-t_status	*Constructor(t_status *status, int ac, char **av)
+int	Constructor(t_status *status, int ac, char **av)
 {
+	int		i;
+
+	i = 0;
+	while (++i < ac)
+	{
+		if (checkSyntax(av[i]) == ERR)
+			return (printError("Error: Bad arguments syntax\n"));
+	}
 	status->numberOfPhilosophers = ft_atoi(av[1]);
 	status->timeToDie = ft_atoi(av[2]);
 	status->timeToEat = ft_atoi(av[3]);
 	status->timeToSleep = ft_atoi(av[4]);
-	status->isPhilosopherAlive = ALIVE;
 	if (ac == 6)
 		status->numberOfTimesMustEat = ft_atoi(av[5]);
 	else
 		status->numberOfTimesMustEat = 0;
 	status->supervisorCounter = 0;
 	status->philos = philosophersConstructor(status);
-	return (status);
+	return (EXIT_SUCCESS);
 }

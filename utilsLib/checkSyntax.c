@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   checkSyntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/03 09:50:16 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/03 09:50:16 by aabounak         ###   ########.fr       */
+/*   Created: 2021/07/07 15:10:23 by aabounak          #+#    #+#             */
+/*   Updated: 2021/07/07 15:10:44 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/philo_one.h"
+# include "utilsLib.h"
 
-int	main(int ac, char **av)
+int	checkSyntax(char *arg)
 {
-	t_status	*status;
-	
-	if (ac != 5 && ac != 6)
-			return (printError("Error: Bad arguments number\n"));
-	else
+	int		i;
+
+	i = -1;
+	while (arg[++i])
 	{
-		status = (t_status *)malloc(sizeof(t_status));
-		Constructor(status, ac, av);
-		if (status->numberOfPhilosophers == 0)
-			return (EXIT_SUCCESS);
-		mutexConstructor(status);
-		runThreads(status);
-		threadsSupervisor(status);
+		if (!ft_isdigit(arg[i]))
+			return (ERR);
 	}
 	return (EXIT_SUCCESS);
 }

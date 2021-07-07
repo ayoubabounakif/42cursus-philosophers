@@ -55,8 +55,6 @@ struct s_status
 
 	int				supervisorCounter;
 
-	int				isPhilosopherAlive;
-
 	uint64_t		startingTime;
 
 	pthread_mutex_t	write;
@@ -68,7 +66,7 @@ struct s_status
 /*
 **	subroutines
 */
-t_status	*Constructor(t_status *status, int ac, char **av);
+int			Constructor(t_status *status, int ac, char **av);
 t_philo		*philosophersConstructor(t_status *status);
 void		mutexConstructor(t_status *status);
 void		runThreads(t_status *status);
@@ -91,6 +89,6 @@ void		__think__(t_philo *philosopher);
 */
 uint64_t	getCurrentTime(void);
 void		displayChangeOfStatus(char *messageToPrint, t_philo *philosopher);
-
+void		ft_usleep(int timeToSleep);
 
 #endif

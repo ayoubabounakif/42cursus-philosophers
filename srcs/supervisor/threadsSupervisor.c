@@ -16,29 +16,29 @@ int	threadsSupervisor(t_status *status)
 {
 	int		i;
 
-	while (1)
+	while (420)
 	{
 		i = -1;
 		while (++i < status->numberOfPhilosophers)
 		{
-			if (getCurrentTime() - status->philos[i].lastMeal >= status->timeToDie
-				&& status->philos[i].isEating == PHILOSOPHER_CAN_DIE)
+			if (status->philos[i].isEating == PHILOSOPHER_CAN_DIE)
 			{
-				pthread_mutex_lock(&status->forks[status->philos[i].rightFork]);
-				pthread_mutex_lock(&status->forks[status->philos[i].leftFork]);
 				pthread_mutex_lock(&status->philos[i].eat);
-				displayChangeOfStatus("died", status->philos);
-				status->isPhilosopherAlive = DEAD;
-				Destructor(status, free);
-				return (EXIT_SUCCESS);
-			}
-			else if (status->supervisorCounter == status->numberOfPhilosophers)
-			{
-				Destructor(status, free);
-				return (EXIT_SUCCESS);
+				if (getCurrentTime() - status->philos[i].lastMeal >= status->timeToDie)
+				{
+					displayChangeOfStatus("died", status->philos);
+					// Destructor(status, free);
+					return (EXIT_SUCCESS);
+				}
+				else if (status->supervisorCounter == status->numberOfPhilosophers)
+				{
+					// Destructor(status, free);
+					return (EXIT_SUCCESS);
+				}
+				pthread_mutex_unlock(&status->philos[i].eat);
 			}
 		}
-		usleep(100);
+		ft_usleep(100);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -14,15 +14,15 @@
 
 void	*routine(void *arg)
 {
-	t_philo	*philosopher = (t_philo *)arg;
-
+	t_philo	*philosopher;
+	
+	philosopher = (t_philo *)arg;
 	philosopher->lastMeal = getCurrentTime();
-	while (philosopher->status->isPhilosopherAlive)
+	while (420)
 	{
 		__eat__(philosopher);
 		__sleep__(philosopher);
 		__think__(philosopher);
-		usleep(100);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -34,11 +34,24 @@ void	runThreads(t_status *status)
 
 	i = -1;
 	status->startingTime = getCurrentTime();
-	pthread_mutex_init(&status->write, NULL);
+	pthread_mutex_init(&(status->write), NULL);
 	while (++i < status->numberOfPhilosophers)
 	{
 		pthread_create(&threadId, NULL, &routine, &status->philos[i]);
-		usleep(100);
+		ft_usleep(100);
 	}
+	// i = 0;
+	// while (i < status->numberOfPhilosophers)
+	// {
+	// 	pthread_create(&threadId, NULL, &routine, &status->philos[i]);
+	// 	i += 2;
+	// }
+	// ft_usleep(1000);
+	// i = 1;
+	// while (i < status->numberOfPhilosophers)
+	// {
+	// 	pthread_create(&threadId, NULL, &routine, &status->philos[i]);
+	// 	i += 2;
+	// }
 	return ;
 }

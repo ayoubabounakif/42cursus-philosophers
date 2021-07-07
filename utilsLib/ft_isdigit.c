@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   __sleep__.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/30 16:51:28 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/30 16:51:43 by aabounak         ###   ########.fr       */
+/*   Created: 2021/07/07 15:12:51 by aabounak          #+#    #+#             */
+/*   Updated: 2021/07/07 15:13:16 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/philo_one.h"
+# include "utilsLib.h"
 
-void	__sleep__(t_philo *philosopher)
+int	ft_isdigit(int c)
 {
-	displayChangeOfStatus("is sleeping", philosopher);
-	ft_usleep(philosopher->status->timeToSleep * 1000);
-	return ;
+	return ((c > 47) && (c < 58));
 }
+

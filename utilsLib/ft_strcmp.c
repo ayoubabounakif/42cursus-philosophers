@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   __sleep__.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabounak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/30 16:51:28 by aabounak          #+#    #+#             */
-/*   Updated: 2021/06/30 16:51:43 by aabounak         ###   ########.fr       */
+/*   Created: 2021/07/05 15:49:46 by aabounak          #+#    #+#             */
+/*   Updated: 2021/07/05 15:50:54 by aabounak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/philo_one.h"
+#include "../includes/philo_one.h"
 
-void	__sleep__(t_philo *philosopher)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	displayChangeOfStatus("is sleeping", philosopher);
-	ft_usleep(philosopher->status->timeToSleep * 1000);
-	return ;
+	while (*s1)
+    {
+        if (*s1 != *s2)
+            break;
+        s1++;
+        s2++;
+    }
+    return *(const unsigned char *)s1 - *(const unsigned char *)s2;
 }
