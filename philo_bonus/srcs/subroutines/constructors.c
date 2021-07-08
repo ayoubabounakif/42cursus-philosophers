@@ -28,7 +28,6 @@ void	semaphoreConstructor(t_status *status)
 	return ;
 }
 
-
 t_philo	*philosophersConstructor(t_status *status)
 {
 	int		i;
@@ -39,8 +38,6 @@ t_philo	*philosophersConstructor(t_status *status)
 	while (++i < status->numberOfPhilosophers)
 	{
 		philo[i].id = i + 1;
-		philo[i].leftFork = i;
-		philo[i].rightFork = (i + 1) % status->numberOfPhilosophers;
 		philo[i].numberOfTimesAte = 0;
 		philo[i].isEating = 0;
 		sem_unlink("Eating semaphore");

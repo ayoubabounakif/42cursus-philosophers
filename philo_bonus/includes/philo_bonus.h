@@ -20,6 +20,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <signal.h>
 # include "../utilsLib/utilsLib.h"
 
 # define __EVENACCESS
@@ -35,8 +36,6 @@ struct s_philo
 {
 	pid_t			pid;
 	int				id;
-	int				leftFork;
-	int				rightFork;
 	int				numberOfTimesAte;
 	int				isEating;
 	uint64_t		lastMeal;
@@ -65,7 +64,7 @@ struct s_status
 int			Constructor(t_status *status, int ac, char **av);
 t_philo		*philosophersConstructor(t_status *status);
 void		semaphoreConstructor(t_status *status);
-void		spawnProcs(t_status *status);
+void		runProcesses(t_status *status);
 void		Destructor(t_status *status, void (*del)(void *));
 
 /*

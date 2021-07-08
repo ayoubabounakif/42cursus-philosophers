@@ -30,12 +30,12 @@ void	*threadsSupervisor(void *arg)
 				{
 					displayChangeOfStatus("died", status->philos);
 					// Destructor(status, free);
-					exit (EXIT_SUCCESS);
+					exit(1);
 				}
 				else if (status->supervisorCounter == status->numberOfPhilosophers)
 				{
 					// Destructor(status, free);
-					exit (EXIT_SUCCESS);
+					exit(1);
 				}
 				sem_post(status->eat);
 			}

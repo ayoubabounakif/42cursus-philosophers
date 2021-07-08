@@ -19,7 +19,7 @@ NAME = philo_bonus
 EXEC = philo_bonus
 
 SRCS = philo_bonus.c \
-srcs/subroutines/constructors.c srcs/subroutines/spawnProcs.c srcs/subroutines/Destructor.c \
+srcs/subroutines/constructors.c srcs/subroutines/runProcesses.c srcs/subroutines/Destructor.c \
 srcs/supervisor/threadsSupervisor.c \
 srcs/threadsRoutineMethods/__eat__.c \
 srcs/threadsRoutineMethods/__sleep__.c \

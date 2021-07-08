@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 		if (status->numberOfPhilosophers == 0)
 			return (EXIT_SUCCESS);
 		semaphoreConstructor(status);
-		spawnProcs(status);
+		runProcesses(status);
 	}
 	return (EXIT_SUCCESS);
 }
