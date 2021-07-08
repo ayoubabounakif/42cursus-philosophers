@@ -20,7 +20,9 @@ void	semaphoreConstructor(t_status *status)
 	sem_unlink("forks");
 	status->forks = sem_open("forks", O_CREAT, 0644, status->numberOfPhilosophers);
 	sem_unlink("write");
-	status->write = sem_open("write", O_CREAT, 0644, NULL);
+	status->write = sem_open("write", O_CREAT, 0644, 1);
+	sem_unlink("eat");
+	status->eat = sem_open("eat", O_CREAT, 0644, 1);
 	while (++i < status->numberOfPhilosophers)
 		status->philos[i].lastMeal = getCurrentTime();
 	return ;
@@ -42,7 +44,7 @@ t_philo	*philosophersConstructor(t_status *status)
 		philo[i].numberOfTimesAte = 0;
 		philo[i].isEating = 0;
 		sem_unlink("Eating semaphore");
-		philo[i].eat = sem_open("Eating sempahore", O_CREAT, 0644, NULL);
+		philo[i].eat = sem_open("Eating semaphore", O_CREAT, 0644, 1);
 		philo[i].status = status;
 	}
 	return (philo);

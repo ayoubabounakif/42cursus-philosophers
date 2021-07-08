@@ -14,6 +14,7 @@
 
 void	__sleep__(t_philo *philosopher)
 {
+	displayChangeOfStatus("is sleeping", philosopher);
 	ft_usleep(philosopher->status->timeToSleep * 1000);
 	return ;
 }

@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include "../utilsLib/utilsLib.h"
 
-# define __EVENACCESS
+# define __EVENACCESS 0644
 
 # define PHILOSOPHER_CAN_DIE 0
 # define EATING 1
@@ -36,11 +36,8 @@ struct s_philo
 	int				rightFork;
 	int				numberOfTimesAte;
 	int				isEating;
-
 	uint64_t		lastMeal;
-
 	pthread_mutex_t	eat;
-
 	t_status		*status;
 };
 
@@ -51,14 +48,10 @@ struct s_status
 	uint64_t		timeToEat;
 	uint64_t		timeToSleep;
 	int				numberOfTimesMustEat;
-
 	int				supervisorCounter;
-
 	uint64_t		startingTime;
-
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
-
 	t_philo			*philos;
 };
 

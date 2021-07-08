@@ -36,6 +36,8 @@ void	spawnProcs(t_status *status)
 
 	i = -1;
 	status->startingTime = getCurrentTime();
+	if (status->numberOfTimesMustEat > 0)
+
 	while (++i < status->numberOfPhilosophers)
 	{
 		status->philos[i].pid = fork();
@@ -49,6 +51,13 @@ void	spawnProcs(t_status *status)
 		}
 		ft_usleep(100);
 	}
-	while ((wpid = wait(&stat_loc)) > 0);	
+	while ((wpid = wait(&stat_loc)) > 0)
+	{
+		// if (status->philos[i].pid)
+
+		/* for (int j = 0; j < status->numberOfPhilosophers; j++)
+			kill(status->philos[j].pid, SIGKILL);
+		return ; */
+	}
 	return ;
 }

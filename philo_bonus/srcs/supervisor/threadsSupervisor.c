@@ -25,7 +25,7 @@ void	*threadsSupervisor(void *arg)
 		{
 			if (status->philos[i].isEating == PHILOSOPHER_CAN_DIE)
 			{
-				sem_wait(status->philos[i].eat);
+				sem_wait(status->eat);
 				if (getCurrentTime() - status->philos[i].lastMeal >= status->timeToDie)
 				{
 					displayChangeOfStatus("died", status->philos);
@@ -37,7 +37,7 @@ void	*threadsSupervisor(void *arg)
 					// Destructor(status, free);
 					exit (EXIT_SUCCESS);
 				}
-				sem_post(status->philos[i].eat);
+				sem_post(status->eat);
 			}
 		}
 		ft_usleep(100);

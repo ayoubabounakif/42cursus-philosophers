@@ -39,9 +39,7 @@ struct s_philo
 	int				rightFork;
 	int				numberOfTimesAte;
 	int				isEating;
-
 	uint64_t		lastMeal;
-
 	sem_t			*eat;
 	t_status		*status;
 };
@@ -55,7 +53,7 @@ struct s_status
 	int				numberOfTimesMustEat;
 	uint64_t		startingTime;
 	int				supervisorCounter;
-
+	sem_t			*eat;
 	sem_t			*write;
 	sem_t			*forks;
 	t_philo			*philos;
