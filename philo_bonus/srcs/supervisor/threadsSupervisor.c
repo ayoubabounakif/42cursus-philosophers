@@ -17,11 +17,11 @@ void	*threadsSupervisor(void *arg)
 	t_status	*status;
 
 	status = (t_status *)(arg);
-	printf("inside supervisor %d\n", status->philos->isEating);
+	printf("--------------\nisEating inside supervisor --> %d\n--------------\n", status->philos->isEating);
 	fflush(stdout);
 	while (420)
 	{
-		printf("%d\n", status->philos->isEating);
+		// printf("%d\n", status->philos->isEating);
 		if (status->philos->isEating == PHILOSOPHER_CAN_DIE)
 		{
 			if (getCurrentTime() - status->philos->lastMeal >= status->timeToDie)

@@ -23,15 +23,10 @@ void	__eat__(t_philo *philosopher)
 
 	/* 	This will be needed by the supervisor */
 			/* HARAM Calculations */
-	printf("isEating inside __eat__ : %d\n", philosopher->isEating);
 	philosopher->isEating = EATING;
-	printf("isEating inside __eat__ : %d\n", philosopher->isEating);
-
 	philosopher->lastMeal = getCurrentTime();
 	ft_usleep(philosopher->status->timeToEat * 1000);
-	printf("isEating after __eat__ : %d\n", philosopher->isEating);
 	philosopher->isEating = PHILOSOPHER_CAN_DIE;
-
 
 	sem_post(philosopher->status->forks);
 	sem_post(philosopher->status->forks);

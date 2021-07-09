@@ -14,11 +14,6 @@
 
 void	routine(t_philo	*philosopher)
 {
-	pthread_t	t_id;
-
-	printf("inside routine %d\n", philosopher->isEating);
-	fflush(stdout);
-	pthread_create(&t_id, NULL, &threadsSupervisor, &philosopher->status->philos);
 	philosopher->lastMeal = getCurrentTime();
 	while (420)
 	{
@@ -72,10 +67,9 @@ void	runProcesses(t_status *status)
 			exit(printError("Error forking\n"));
 		if (status->philos[i].pid == 0)
 		{
-			// pthread_create(&t_id, NULL, &threadsSupervisor, &status->philos[i]);
-			printf("inside childp %d\n", status->philos[i].isEating);
+			pthread_create(&t_id, NULL, &threadsSupervisor, &status->philos[i]);
 			routine(&status->philos[i]);
-			exit(1);
+			// exit(1);
 		}
 		ft_usleep(100);
 		i++; 
@@ -88,7 +82,10 @@ void	runProcesses(t_status *status)
 		if (WIFEXITED(stat_loc) && WEXITSTATUS(stat_loc))
 		{
 			while (++j < status->numberOfPhilosophers)
+			{
+				printf("%d\n", status->philos[j].pid);
 				kill(status->philos[j].pid, SIGKILL);
+			}
 		}
 	}
 	return ;
