@@ -29,11 +29,11 @@ void	__eat__(t_philo *philosopher)
 	if (philosopher->numberOfTimesAte == philosopher->status->numberOfTimesMustEat)
 		philosopher->status->supervisorCounter++;
 	ft_usleep(philosopher->status->timeToEat * 1000);
+	philosopher->isEating = PHILOSOPHER_CAN_DIE;
 
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->leftFork]);
 	pthread_mutex_unlock(&philosopher->status->forks[philosopher->rightFork]);
 	pthread_mutex_unlock(&philosopher->eat);
 
-	philosopher->isEating = PHILOSOPHER_CAN_DIE;
 	return ;
 }
