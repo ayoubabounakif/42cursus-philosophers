@@ -14,30 +14,20 @@
 
 void	*threadsSupervisor(void *arg)
 {
-	int			i;
 	t_status	*status;
 
 	status = (t_status *)(arg);
+	printf("inside supervisor %d\n", status->philos->isEating);
+	fflush(stdout);
 	while (420)
 	{
-		i = -1;
-		while (++i < status->numberOfPhilosophers)
+		printf("%d\n", status->philos->isEating);
+		if (status->philos->isEating == PHILOSOPHER_CAN_DIE)
 		{
-			if (status->philos[i].isEating == PHILOSOPHER_CAN_DIE)
+			if (getCurrentTime() - status->philos->lastMeal >= status->timeToDie)
 			{
-				sem_wait(status->eat);
-				if (getCurrentTime() - status->philos[i].lastMeal >= status->timeToDie)
-				{
-					displayChangeOfStatus("died", status->philos);
-					// Destructor(status, free);
-					exit(1);
-				}
-				else if (status->supervisorCounter == status->numberOfPhilosophers)
-				{
-					// Destructor(status, free);
-					exit(1);
-				}
-				sem_post(status->eat);
+				displayChangeOfStatus("died", status->philos);
+				exit(1);
 			}
 		}
 		ft_usleep(100);

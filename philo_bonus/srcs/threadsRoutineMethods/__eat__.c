@@ -18,22 +18,24 @@ void	__eat__(t_philo *philosopher)
 	displayChangeOfStatus("has taken the left fork", philosopher);
 	sem_wait(philosopher->status->forks);
 	displayChangeOfStatus("has taken the right fork", philosopher);
-	sem_wait(philosopher->eat);
+	sem_wait(philosopher->status->eat);
 	displayChangeOfStatus("is eating", philosopher);
 
 	/* 	This will be needed by the supervisor */
 			/* HARAM Calculations */
+	printf("isEating inside __eat__ : %d\n", philosopher->isEating);
 	philosopher->isEating = EATING;
+	printf("isEating inside __eat__ : %d\n", philosopher->isEating);
+
 	philosopher->lastMeal = getCurrentTime();
-	philosopher->numberOfTimesAte += 1;
-	if (philosopher->numberOfTimesAte == philosopher->status->numberOfTimesMustEat)
-		philosopher->status->supervisorCounter++;
 	ft_usleep(philosopher->status->timeToEat * 1000);
-
-	sem_post(philosopher->status->forks);
-	sem_post(philosopher->status->forks);
-	sem_post(philosopher->eat);
-
+	printf("isEating after __eat__ : %d\n", philosopher->isEating);
 	philosopher->isEating = PHILOSOPHER_CAN_DIE;
+
+
+	sem_post(philosopher->status->forks);
+	sem_post(philosopher->status->forks);
+	sem_post(philosopher->status->eat);
+
 	return ;
 }

@@ -37,7 +37,7 @@ $(LIBNAME): $(SRC)
 
 $(NAME): $(LIBNAME)
 	@echo "Compilation in progress! DO NOT INTERRUPT!"
-	gcc $(FLAGS) $(SRCS) utilsLib.a -o $(EXEC) $(LIBS)
+	gcc -g3 $(FLAGS) $(SRCS) utilsLib.a -o $(EXEC) $(LIBS)
 	@echo "Compilation done! :)"
 
 clean:

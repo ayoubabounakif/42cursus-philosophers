@@ -15,5 +15,4 @@
 void	__think__(t_philo *philosopher)
 {
 	displayChangeOfStatus("is thinking", philosopher);
-	return ;
 }

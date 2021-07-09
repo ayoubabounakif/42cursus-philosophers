@@ -36,10 +36,9 @@ struct s_philo
 {
 	pid_t			pid;
 	int				id;
-	int				numberOfTimesAte;
 	int				isEating;
 	uint64_t		lastMeal;
-	sem_t			*eat;
+	sem_t			*supervisorCounter;
 	t_status		*status;
 };
 
@@ -51,7 +50,6 @@ struct s_status
 	uint64_t		timeToSleep;
 	int				numberOfTimesMustEat;
 	uint64_t		startingTime;
-	int				supervisorCounter;
 	sem_t			*eat;
 	sem_t			*write;
 	sem_t			*forks;
