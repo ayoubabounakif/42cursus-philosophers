@@ -20,8 +20,8 @@ void	Destructor(t_status *status, void (*del)(void *))
 	{
 		if (status->forks)
 			(*del)(status->forks);
-		// if (status->philos)
-		// 	(*del)(status->philos);
+		if (status->philos)
+			(*del)(status->philos);
 		if (status)
 			(*del)(status);
 	} */

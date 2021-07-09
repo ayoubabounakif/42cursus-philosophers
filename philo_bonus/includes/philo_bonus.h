@@ -23,7 +23,7 @@
 # include <signal.h>
 # include "../utilsLib/utilsLib.h"
 
-# define __EVENACCESS
+# define EVENACCESS 0644
 
 # define EATING 1
 # define PHILOSOPHER_CAN_DIE 0
