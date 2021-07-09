@@ -36,7 +36,7 @@ struct s_philo
 {
 	pid_t			pid;
 	int				id;
-	int				isEating;
+	volatile int				isEating;
 	uint64_t		lastMeal;
 	sem_t			*supervisorCounter;
 	t_status		*status;

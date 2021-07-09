@@ -14,6 +14,12 @@
 
 void	routine(t_philo	*philosopher)
 {
+	// t_philo		*tmp;
+	pthread_t	t_id;
+
+	// tmp = philosopher;
+	// printf("philo id : %d || isEating before supervisor %d || %p\n", philosopher->id, philosopher->isEating, &philosopher->isEating);
+	pthread_create(&t_id, NULL, &threadsSupervisor, (void *)philosopher);
 	philosopher->lastMeal = getCurrentTime();
 	while (420)
 	{
@@ -55,10 +61,12 @@ void	runProcesses(t_status *status)
 	int			stat_loc;
 	pthread_t	t_id;
 
-	i = 0;
 	status->startingTime = getCurrentTime();
+	sem_unlink("write");
+	status->write = sem_open("write", O_CREAT, 0644, 1);
 	if (status->numberOfTimesMustEat > 0)
 		pthread_create(&t_id, NULL, &superviserRoutine, (void *)status);
+	i = 0;
 	while (i < status->numberOfPhilosophers)
 	{
 		status->philos[i].lastMeal = getCurrentTime();
@@ -67,12 +75,11 @@ void	runProcesses(t_status *status)
 			exit(printError("Error forking\n"));
 		if (status->philos[i].pid == 0)
 		{
-			pthread_create(&t_id, NULL, &threadsSupervisor, &status->philos[i]);
 			routine(&status->philos[i]);
-			// exit(1);
+			exit(1);
 		}
+		i++;
 		ft_usleep(100);
-		i++; 
 	}
 	i = -1;
 	j = -1;
@@ -83,7 +90,7 @@ void	runProcesses(t_status *status)
 		{
 			while (++j < status->numberOfPhilosophers)
 			{
-				printf("%d\n", status->philos[j].pid);
+				// printf("%d\n", status->philos[j].pid);
 				kill(status->philos[j].pid, SIGKILL);
 			}
 		}

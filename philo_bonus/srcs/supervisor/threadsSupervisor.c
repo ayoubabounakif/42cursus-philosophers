@@ -14,19 +14,18 @@
 
 void	*threadsSupervisor(void *arg)
 {
-	t_status	*status;
+	t_philo	*philos;
 
-	status = (t_status *)(arg);
-	printf("--------------\nisEating inside supervisor --> %d\n--------------\n", status->philos->isEating);
-	fflush(stdout);
+	philos = (t_philo *)(arg);
+	// printf("%d\n", status->philos->)
+	// printf("isEating in supervisorr = %d\n", philos->isEating);
 	while (420)
 	{
-		// printf("%d\n", status->philos->isEating);
-		if (status->philos->isEating == PHILOSOPHER_CAN_DIE)
+		if (philos->isEating == PHILOSOPHER_CAN_DIE)
 		{
-			if (getCurrentTime() - status->philos->lastMeal >= status->timeToDie)
+			if (getCurrentTime() - philos->lastMeal >= philos->status->timeToDie)
 			{
-				displayChangeOfStatus("died", status->philos);
+				displayChangeOfStatus("died", philos);
 				exit(1);
 			}
 		}

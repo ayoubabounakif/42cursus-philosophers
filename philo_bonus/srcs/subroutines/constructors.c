@@ -16,8 +16,6 @@ void	semaphoreConstructor(t_status *status)
 {
 	sem_unlink("forks");
 	status->forks = sem_open("forks", O_CREAT, 0644, status->numberOfPhilosophers);
-	sem_unlink("write");
-	status->write = sem_open("write", O_CREAT, 0644, 1);
 	sem_unlink("lock me when eating");
 	status->eat = sem_open("lock me when eating", O_CREAT, 0644, status->numberOfPhilosophers / 2);
 	return ;
