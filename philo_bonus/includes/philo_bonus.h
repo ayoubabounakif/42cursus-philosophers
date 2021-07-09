@@ -36,9 +36,8 @@ struct s_philo
 {
 	pid_t			pid;
 	int				id;
-	volatile int				isEating;
+	int				isEating;
 	uint64_t		lastMeal;
-	sem_t			*supervisorCounter;
 	t_status		*status;
 };
 
@@ -52,6 +51,7 @@ struct s_status
 	uint64_t		startingTime;
 	sem_t			*eat;
 	sem_t			*write;
+	sem_t			*supervisorCounter;
 	sem_t			*forks;
 	t_philo			*philos;
 };
@@ -82,6 +82,6 @@ void		__think__(t_philo *philosopher);
 */
 uint64_t	getCurrentTime(void);
 void		displayChangeOfStatus(char *messageToPrint, t_philo *philosopher);
-void		ft_usleep(int timeToSleep);
+void		ft_usleep(uint64_t sleep_time);
 
 #endif

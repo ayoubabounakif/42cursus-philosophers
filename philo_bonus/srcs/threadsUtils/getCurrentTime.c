@@ -20,22 +20,12 @@ uint64_t	getCurrentTime(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(int sleep_time)
+void	ft_usleep(uint64_t sleep_time)
 {
 	uint64_t	start;
-	uint64_t	time_diff;
 
-	start = getCurrentTime() * 1000;
-	while (1)
-	{
-		time_diff = sleep_time - (getCurrentTime() * 1000 - start);
-		if (time_diff < 50)
-		{
-			usleep(time_diff);
-			break ;
-		}
-		if (time_diff > (uint64_t)sleep_time)
-			break ;
-		usleep(50);
-	}
+	start = getCurrentTime();
+	usleep(sleep_time - 20000);
+	while (getCurrentTime() - start < sleep_time / 1000)
+		continue ;
 }

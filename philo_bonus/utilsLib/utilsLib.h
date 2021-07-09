@@ -23,7 +23,8 @@ int	    ft_isdigit(int c);
 int     ft_strlen(const char *s);
 int     ft_putchar_fd(char c, int fd);
 int     ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
+
+void	ft_putuint64_fd(uint64_t n, int fd);
 int     ft_atoi(const char *str);
 int     printError(char *errorMsg);
 int     ft_strcmp(const char *s1, const char *s2);

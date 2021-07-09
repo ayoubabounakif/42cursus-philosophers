@@ -24,6 +24,7 @@ void	__eat__(t_philo *philosopher)
 	/* 	This will be needed by the supervisor */
 			/* HARAM Calculations */
 	philosopher->isEating = EATING;
+	sem_post(philosopher->status->supervisorCounter);
 	philosopher->lastMeal = getCurrentTime();
 	ft_usleep(philosopher->status->timeToEat * 1000);
 	philosopher->isEating = PHILOSOPHER_CAN_DIE;

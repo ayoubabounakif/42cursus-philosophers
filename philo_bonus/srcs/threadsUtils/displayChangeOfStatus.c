@@ -18,7 +18,13 @@ void	displayChangeOfStatus(char *messageToPrint, t_philo *philosopher)
 
 	sem_wait(philosopher->status->write);
 	timeDiff = getCurrentTime() - philosopher->status->startingTime;
-	printf("%llu philosopher %d %s\n", timeDiff, philosopher->id, messageToPrint);
+	// printf("%llu philosopher %d %s\n", timeDiff, philosopher->id, messageToPrint);
+	ft_putuint64_fd(timeDiff, STDOUT_FILENO);
+	ft_putstr_fd(" ", STDOUT_FILENO);
+	ft_putuint64_fd(philosopher->id, STDOUT_FILENO);
+	ft_putchar_fd(' ', STDOUT_FILENO);
+	ft_putstr_fd(messageToPrint, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 
 /* 	An upcoming condition, that will be needed for the supervisor */
 	if (ft_strcmp(messageToPrint, "died") != 0)

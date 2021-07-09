@@ -16,6 +16,8 @@ void	semaphoreConstructor(t_status *status)
 {
 	sem_unlink("forks");
 	status->forks = sem_open("forks", O_CREAT, 0644, status->numberOfPhilosophers);
+	sem_unlink("write");
+	status->write = sem_open("write", O_CREAT, 0644, 1);
 	sem_unlink("lock me when eating");
 	status->eat = sem_open("lock me when eating", O_CREAT, 0644, status->numberOfPhilosophers / 2);
 	return ;
@@ -32,8 +34,6 @@ t_philo	*philosophersConstructor(t_status *status)
 	{
 		philo[i].id = i + 1;
 		philo[i].isEating = 0;
-		sem_unlink("eating counter semaphore");
-		philo[i].supervisorCounter = sem_open("eating counter semaphore", O_CREAT, 0644, 0);
 		philo[i].status = status;
 		i++;
 	}
@@ -58,6 +58,8 @@ int	Constructor(t_status *status, int ac, char **av)
 		status->numberOfTimesMustEat = ft_atoi(av[5]);     
 	else
 		status->numberOfTimesMustEat = 0;
+	sem_unlink("eating counter semaphore");
+	status->supervisorCounter = sem_open("eating counter semaphore", O_CREAT, 0644, 0);
 	status->philos = philosophersConstructor(status);
 	return (EXIT_SUCCESS);
 }

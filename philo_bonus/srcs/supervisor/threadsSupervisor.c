@@ -17,8 +17,6 @@ void	*threadsSupervisor(void *arg)
 	t_philo	*philos;
 
 	philos = (t_philo *)(arg);
-	// printf("%d\n", status->philos->)
-	// printf("isEating in supervisorr = %d\n", philos->isEating);
 	while (420)
 	{
 		if (philos->isEating == PHILOSOPHER_CAN_DIE)
@@ -29,7 +27,7 @@ void	*threadsSupervisor(void *arg)
 				exit(1);
 			}
 		}
-		ft_usleep(100);
+		usleep(100);
 	}
 	return (EXIT_SUCCESS);
 }

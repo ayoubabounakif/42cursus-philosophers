@@ -15,12 +15,12 @@
 void	routine(t_philo	*philosopher)
 {
 	// t_philo		*tmp;
-	pthread_t	t_id;
+	// pthread_t	t_id;
 
 	// tmp = philosopher;
 	// printf("philo id : %d || isEating before supervisor %d || %p\n", philosopher->id, philosopher->isEating, &philosopher->isEating);
-	pthread_create(&t_id, NULL, &threadsSupervisor, (void *)philosopher);
-	philosopher->lastMeal = getCurrentTime();
+	// pthread_create(&t_id, NULL, &threadsSupervisor, (void *)philosopher);
+	// philosopher->lastMeal = getCurrentTime();
 	while (420)
 	{
 		__eat__(philosopher);
@@ -42,7 +42,7 @@ void	*superviserRoutine(void *arg)
 		i = 0;
 		while (i < status->numberOfPhilosophers)
 		{
-			sem_wait(status->philos[i].supervisorCounter);
+			sem_wait(status->supervisorCounter);
 			i++;
 		}
 		count++;
@@ -51,7 +51,7 @@ void	*superviserRoutine(void *arg)
 	i = -1;
 	while (++i < status->numberOfPhilosophers)
 		kill(status->philos[i].pid, SIGKILL);
-	return (NULL);
+	return (EXIT_SUCCESS);
 }
 
 void	runProcesses(t_status *status)
@@ -61,11 +61,9 @@ void	runProcesses(t_status *status)
 	int			stat_loc;
 	pthread_t	t_id;
 
-	status->startingTime = getCurrentTime();
-	sem_unlink("write");
-	status->write = sem_open("write", O_CREAT, 0644, 1);
 	if (status->numberOfTimesMustEat > 0)
 		pthread_create(&t_id, NULL, &superviserRoutine, (void *)status);
+	status->startingTime = getCurrentTime();
 	i = 0;
 	while (i < status->numberOfPhilosophers)
 	{
@@ -75,25 +73,22 @@ void	runProcesses(t_status *status)
 			exit(printError("Error forking\n"));
 		if (status->philos[i].pid == 0)
 		{
+			pthread_create(&t_id, NULL, &threadsSupervisor, (void *)(&status->philos[i]));
 			routine(&status->philos[i]);
 			exit(1);
 		}
 		i++;
-		ft_usleep(100);
+		usleep(100);
 	}
 	i = -1;
-	j = -1;
 	while (++i < status->numberOfPhilosophers)
 	{
 		waitpid(-1, &stat_loc, 0);
 		if (WIFEXITED(stat_loc) && WEXITSTATUS(stat_loc))
-		{
-			while (++j < status->numberOfPhilosophers)
-			{
-				// printf("%d\n", status->philos[j].pid);
-				kill(status->philos[j].pid, SIGKILL);
-			}
-		}
+			break ;
 	}
-	return ;
+	j = -1;
+	while (++j < status->numberOfPhilosophers)
+		kill(status->philos[j].pid, SIGKILL);
+	exit(420);
 }
